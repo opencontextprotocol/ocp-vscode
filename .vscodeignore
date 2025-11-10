@@ -1,0 +1,23 @@
+# Source files
+src/
+tsconfig.json
+esbuild.js
+
+# Development files
+node_modules/
+
+# Exclude the local dependency entirely (it's bundled in dist/extension.js)
+../ocp-javascript/
+
+# Build artifacts
+**/*.map
+
+# Development files
+package-lock.json
+.gitignore
+
+# macOS files
+.DS_Store
+
+# Logs
+*.log

@@ -1,0 +1,171 @@
+{
+  "name": "ocp-vscode-extension",
+  "displayName": "Open Context Protocol",
+  "description": "Provides OCP context and API calling tools for AI agents in VS Code",
+  "version": "0.1.0",
+  "publisher": "opencontextprotocol",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opencontextprotocol/specification.git",
+    "directory": "ocp-vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Open Context Protocol",
+      "properties": {
+        "ocp.user": {
+          "type": "string",
+          "default": "",
+          "description": "User identifier for OCP context (defaults to git username)"
+        },
+        "ocp.registryUrl": {
+          "type": "string",
+          "default": "https://registry.opencontextprotocol.org",
+          "description": "OCP registry URL for API discovery"
+        },
+        "ocp.apiAuth": {
+          "type": "object",
+          "default": {},
+          "description": "API authentication headers by API name (e.g., {\"github\": {\"Authorization\": \"token ghp_xxx\"}})",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "languageModelTools": [
+      {
+        "name": "ocp_getContext",
+        "displayName": "OCP Get Context",
+        "modelDescription": "Show current workspace development context in the OCP environment, including user, project details, session state, and registered APIs. Use when user asks to 'show me the context', 'what's my current setup', 'tell me about this workspace', or before starting any OCP operations.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "ocp-context",
+        "userDescription": "Get current workspace context information"
+      },
+      {
+        "name": "ocp_registerApi",
+        "displayName": "OCP Register API",
+        "modelDescription": "Add an API to the OCP registry to make its tools available for development tasks. Discovers all available tools from the API specification. Use when user wants to 'add an API', 'register GitHub', 'connect to a service', or integrate with external APIs. This should be done before calling any tools from an API.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "ocp-register",
+        "userDescription": "Register an API to make its tools available",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Human-readable name for the API (required)"
+            },
+            "specUrl": {
+              "type": "string",
+              "description": "URL to OpenAPI specification (optional if using registry lookup)"
+            },
+            "baseUrl": {
+              "type": "string",
+              "description": "Optional override for API base URL"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      },
+      {
+        "name": "ocp_listTools",
+        "displayName": "OCP List Tools",
+        "modelDescription": "List all development tools available from APIs registered in this OCP session. Use when user asks 'what can I do', 'what tools are available', 'show me my options', 'what's possible here', or to discover capabilities after registering APIs.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "ocp-list",
+        "userDescription": "List available tools from registered APIs",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "apiName": {
+              "type": "string",
+              "description": "Optional API name to filter tools"
+            }
+          }
+        }
+      },
+      {
+        "name": "ocp_callTool",
+        "displayName": "OCP Call Tool",
+        "modelDescription": "Execute a development tool from OCP-registered APIs with specified parameters. Tool must be registered first via ocp_registerApi. Use when user requests specific actions like 'create a file', 'search code', 'deploy app', or any task that requires calling external API endpoints.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "ocp-call",
+        "userDescription": "Call a tool from a registered API",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "toolName": {
+              "type": "string",
+              "description": "Name of the tool to call (required)"
+            },
+            "parameters": {
+              "type": "object",
+              "description": "Parameters for the tool (required, can be empty object)"
+            },
+            "apiName": {
+              "type": "string",
+              "description": "Optional API name if tool name is ambiguous"
+            }
+          },
+          "required": [
+            "toolName",
+            "parameters"
+          ]
+        }
+      },
+      {
+        "name": "ocp_searchTools",
+        "displayName": "OCP Search Tools",
+        "modelDescription": "Find development tools by searching names and descriptions across OCP-registered APIs. Use when user describes what they want to accomplish like 'I need to...', 'help me find...', 'find tools for...', or when looking for specific functionality without knowing exact tool names.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "ocp-search",
+        "userDescription": "Search for tools by name or description",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search query for tool name or description (required)"
+            },
+            "apiName": {
+              "type": "string",
+              "description": "Optional API name to search within"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "npm run check-types && node esbuild.js",
+    "check-types": "tsc --noEmit",
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "@opencontextprotocol/agent": "file:../ocp-javascript"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.27.0",
+    "typescript": "^5.3.3"
+  }
+}
