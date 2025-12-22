@@ -96,15 +96,15 @@ class RegisterApiTool implements vscode.LanguageModelTool<IOCPRegisterApiParams>
             // Check if auth is configured for this API
             const config = vscode.workspace.getConfiguration('ocp');
             const apiAuth = config.get<Record<string, Record<string, string>>>('apiAuth') || {};
-            const hasAuth = !!(apiAuth[params.name] && Object.keys(apiAuth[params.name]).length > 0);
+            const headers = apiAuth[params.name] || undefined;
 
-            await ocpAgent.registerApi(params.name, params.specUrl, params.baseUrl);
+            await ocpAgent.registerApi(params.name, params.specUrl, params.baseUrl, headers);
             
             return new vscode.LanguageModelToolResult([
                 new vscode.LanguageModelTextPart(JSON.stringify({
                     success: true,
                     message: `Successfully registered API: ${params.name}`,
-                    hasAuth: hasAuth
+                    hasAuth: !!headers
                 }, null, 2))
             ]);
         } catch (error) {

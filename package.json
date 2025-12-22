@@ -117,12 +117,13 @@
             },
             "apiName": {
               "type": "string",
-              "description": "Optional API name if tool name is ambiguous"
+              "description": "API name that the tool belongs to (required)"
             }
           },
           "required": [
             "toolName",
-            "parameters"
+            "parameters",
+            "apiName"
           ]
         }
       },
