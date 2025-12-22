@@ -187,18 +187,16 @@ class CallToolTool implements vscode.LanguageModelTool<IOCPCallToolParams> {
 
             const params = options.input;
             
-            // Get auth parameters for this API if configured
+            // Get auth headers for this API if configured
             const config = vscode.workspace.getConfiguration('ocp');
             const apiAuth = config.get<Record<string, Record<string, string>>>('apiAuth') || {};
-            const authParams = params.apiName ? apiAuth[params.apiName] || {} : {};
-
-            // Merge agent-provided parameters with auth parameters
-            const finalParams = { ...params.parameters, ...authParams };
+            const headers = params.apiName ? apiAuth[params.apiName] || undefined : undefined;
             
             const result = await ocpAgent.callTool(
                 params.toolName,
-                finalParams,
-                params.apiName
+                params.parameters,
+                params.apiName,
+                headers
             );
             
             return new vscode.LanguageModelToolResult([
