@@ -259,7 +259,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Initialize OCPAgent with VS Code settings
     const config = vscode.workspace.getConfiguration('ocp');
     const user = config.get<string>('user') || process.env.USER || 'unknown';
-    const registryUrl = config.get<string>('registryUrl') || 'https://api.opencontextprotocol.io';
+    const registryUrl = config.get<string>('registryUrl') || 'https://opencontextprotocol.io/api/v1';
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     const workspace = workspaceFolder?.name || 'unknown';
 

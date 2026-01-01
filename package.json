@@ -4,11 +4,7 @@
   "description": "Provides OCP context and API calling tools for AI agents in VS Code",
   "version": "0.1.0",
   "publisher": "opencontextprotocol",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/opencontextprotocol/specification.git",
-    "directory": "ocp-vscode"
-  },
+  "repository": "https://github.com/opencontextprotocol/ocp-vscode.git",
   "engines": {
     "vscode": "^1.85.0"
   },
