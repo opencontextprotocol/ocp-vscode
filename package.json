@@ -30,7 +30,7 @@
         },
         "ocp.registryUrl": {
           "type": "string",
-          "default": "https://ocp.nallenscott.dev/api/v1",
+          "default": "https://opencontextprotocol.io/api/v1",
           "description": "OCP registry URL for API discovery"
         },
         "ocp.apiAuth": {
