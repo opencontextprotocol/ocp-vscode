@@ -4,7 +4,19 @@
   "description": "Provides OCP context and API calling tools for AI agents in VS Code",
   "version": "0.1.0",
   "publisher": "opencontextprotocol",
+  "author": "OCP Contributors",
+  "license": "MIT",
   "repository": "https://github.com/opencontextprotocol/ocp-vscode.git",
+  "homepage": "https://opencontextprotocol.io",
+  "bugs": "https://github.com/opencontextprotocol/ocp-vscode/issues",
+  "keywords": [
+    "ocp",
+    "open-context-protocol",
+    "ai",
+    "agent",
+    "copilot",
+    "github-copilot"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },
