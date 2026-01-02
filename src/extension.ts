@@ -93,10 +93,13 @@ class RegisterApiTool implements vscode.LanguageModelTool<IOCPRegisterApiParams>
 
             const params = options.input;
 
+            // Normalize API name for case-insensitive auth lookup
+            const normalizedApiName = params.name.toLowerCase().trim();
+
             // Check if auth is configured for this API
             const config = vscode.workspace.getConfiguration('ocp');
             const apiAuth = config.get<Record<string, Record<string, string>>>('apiAuth') || {};
-            const headers = apiAuth[params.name] || undefined;
+            const headers = apiAuth[normalizedApiName] || undefined;
 
             await ocpAgent.registerApi(params.name, params.specUrl, params.baseUrl, headers);
             
