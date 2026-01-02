@@ -2,9 +2,6 @@ name: Release
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -29,7 +26,7 @@ jobs:
 
   release:
     needs: test
-    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -46,10 +43,11 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          git-message: 'chore: release {version} [skip ci]'
+          git-message: 'chore: release {version}'
           preset: 'conventionalcommits'
           release-count: 0
           skip-on-empty: 'true'
+          skip-ci: 'false'
 
       - name: Exit if no new version
         if: steps.changelog.outputs.skipped == 'true'
