@@ -5,6 +5,7 @@
   "version": "0.2.0",
   "publisher": "opencontextprotocol",
   "author": "OCP Contributors",
+  "icon": "logo.png",
   "license": "MIT",
   "repository": "https://github.com/opencontextprotocol/ocp-vscode.git",
   "homepage": "https://opencontextprotocol.io",
