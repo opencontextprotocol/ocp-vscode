@@ -82,16 +82,16 @@ jobs:
         if: steps.changelog.outputs.skipped != 'true'
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: vsce publish -p $VSCE_PAT
+        run: vsce publish
 
       - name: Create GitHub Release
         if: steps.changelog.outputs.skipped != 'true'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
+          tag: ${{ steps.changelog.outputs.tag }}
+          name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
           prerelease: false
+          artifacts: "*.vsix"
+          token: ${{ secrets.GITHUB_TOKEN }}
