@@ -168,7 +168,7 @@
     "package": "vsce package"
   },
   "dependencies": {
-    "@opencontextprotocol/agent": "github:opencontextprotocol/ocp-javascript"
+    "@opencontextprotocol/agent": "^0.5.0"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
