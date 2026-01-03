@@ -2,7 +2,7 @@
   "name": "ocp-vscode-extension",
   "displayName": "Open Context Protocol",
   "description": "Provides OCP context and API calling tools for AI agents in VS Code",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "opencontextprotocol",
   "author": "OCP Contributors",
   "icon": "logo.png",
